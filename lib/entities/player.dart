@@ -2,7 +2,7 @@ import '../game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 
-class Player extends SpriteAnimationComponent with HasGameRef<AiGame> {
+class Player extends SpriteAnimationComponent with HasGameRef<AiGame>{
   double movementSpeed = 0.4;
   bool isSprinting = false;
 

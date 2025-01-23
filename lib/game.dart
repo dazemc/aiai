@@ -1,15 +1,36 @@
+import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flame_tiled/flame_tiled.dart';
 import 'entities/player.dart';
 
 class AiGame extends FlameGame with KeyboardEvents {
+  late TiledComponent mapComponent;
   late Player player;
+
+  AiGame()
+      : super(
+          camera: CameraComponent.withFixedResolution(
+              width: 16 * 28, height: 16 * 14),
+        );
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    camera.viewfinder.anchor = Anchor.topLeft;
+    // camera.viewfinder
+    //   ..zoom = 0.5
+    //   ..anchor = Anchor.topLeft
+    //   ..add(
+    //     MoveToEffect(
+    //       Vector2(1000, 0),
+    //       EffectController(duration: 10, alternate: true, infinite: true),
+    //     ),
+      // );
+      mapComponent = await TiledComponent.load('first.tmx', Vector2.all(32));
+      world.add(mapComponent);
     player = Player();
     add(player);
   }
@@ -29,7 +50,7 @@ class AiGame extends FlameGame with KeyboardEvents {
       player.toggleSprint();
     }
 
-    if (isKeyDown || isKeyUp || isKeyHeld) {
+    if (isKeyDown || isKeyHeld || isKeyUp) {
       switch (event.logicalKey) {
         case LogicalKeyboardKey.keyW:
           if (isKeyDown) {
