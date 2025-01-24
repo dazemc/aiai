@@ -1,3 +1,5 @@
+import 'package:aiai/main.dart';
+import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -12,8 +14,10 @@ class AiGame extends FlameGame with KeyboardEvents {
 
   AiGame()
       : super(
-          camera: CameraComponent.withFixedResolution(
-              width: 16 * 28, height: 16 * 14),
+          camera: CameraComponent(
+            // viewfinder: Viewfinder(),
+            viewport: FixedAspectRatioViewport(aspectRatio: 1.618),
+          ),
         );
 
   @override
@@ -22,11 +26,15 @@ class AiGame extends FlameGame with KeyboardEvents {
 
     mapComponent = await TiledComponent.load('first.tmx', Vector2.all(32));
     player = Player();
+ 
 
     world.add(mapComponent);
     world.add(player);
 
-    camera.viewfinder.zoom = 0.5;
+    final ref = Ref();
+    world.add(ref);
+
+    camera.viewfinder.zoom = 1.5;
     camera.follow(player);
   }
 
