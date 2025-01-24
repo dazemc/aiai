@@ -64,6 +64,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/Player/Prototype_Character/
+    - assets/images/Player/main/
     - assets/tiles/
   #   - images/a_dot_ham.jpeg
 

@@ -19,20 +19,15 @@ class AiGame extends FlameGame with KeyboardEvents {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    camera.viewfinder.anchor = Anchor.topLeft;
-    // camera.viewfinder
-    //   ..zoom = 0.5
-    //   ..anchor = Anchor.topLeft
-    //   ..add(
-    //     MoveToEffect(
-    //       Vector2(1000, 0),
-    //       EffectController(duration: 10, alternate: true, infinite: true),
-    //     ),
-      // );
-      mapComponent = await TiledComponent.load('first.tmx', Vector2.all(32));
-      world.add(mapComponent);
+
+    mapComponent = await TiledComponent.load('first.tmx', Vector2.all(32));
     player = Player();
-    add(player);
+
+    world.add(mapComponent);
+    world.add(player);
+
+    camera.viewfinder.zoom = 0.5;
+    camera.follow(player);
   }
 
   @override
@@ -56,7 +51,7 @@ class AiGame extends FlameGame with KeyboardEvents {
           if (isKeyDown) {
             player.startAnimation(id: 'walkBack');
           } else if (isKeyHeld) {
-            player.y -= 2;
+            player.y -= player.movementSpeed;
           } else if (isKeyUp) {
             player.startAnimation(id: 'idleBack');
           }
@@ -67,7 +62,7 @@ class AiGame extends FlameGame with KeyboardEvents {
             }
             player.startAnimation(id: 'walkEast');
           } else if (isKeyHeld) {
-            player.x += 2;
+            player.x += player.movementSpeed;
           } else if (isKeyUp) {
             player.startAnimation(id: 'idleEast');
           }
@@ -75,7 +70,7 @@ class AiGame extends FlameGame with KeyboardEvents {
           if (isKeyDown) {
             player.startAnimation(id: 'walkForward');
           } else if (isKeyHeld) {
-            player.y += 2;
+            player.y += player.movementSpeed;
           } else if (isKeyUp) {
             player.startAnimation(id: 'idle');
           }
@@ -86,7 +81,7 @@ class AiGame extends FlameGame with KeyboardEvents {
             }
             player.startAnimation(id: 'walkEast');
           } else if (isKeyHeld) {
-            player.x -= 2;
+            player.x -= player.movementSpeed;
           } else if (isKeyUp) {
             player.startAnimation(id: 'idleEast');
           }
